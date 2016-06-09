@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\User;
+use AppBundle\Entity\InventoriesRequests;
+use AppBundle\Entity\Requests;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller {
@@ -21,7 +23,7 @@ class DefaultController extends Controller {
         $query = $repository->createQueryBuilder('i');
         $query = $query
                 ->distinct()
-                ->orderBy('i.idInventory', 'DESC')
+                ->orderBy('i.id', 'DESC')
                 ->setMaxResults(2)
                 ->getQuery();
         $lastInventories = $query->getResult();
@@ -73,7 +75,7 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route("/inventory{idInventory}")
+     * @Route("/inventory{idInventory}", name="show_inventory")
      * Method("GET")
      * @Template()
      */
@@ -158,6 +160,108 @@ class DefaultController extends Controller {
         return new JsonResponse(array('responce' => $responce));
     }
 
+    /**
+     * @Route("/add/{id}", name="addToCard")
+     * Method("PUT")
+     * @Template()
+     */
+    public function addAction($id, Request $request) {
+        $session = $this->getRequest()->getSession();
+        $card = $session->get('card');
+        if ($card == null) {
+            $card = new \Doctrine\Common\Collections\ArrayCollection();
+        }
+
+        $inventory = $this->getDoctrine()->getRepository('AppBundle:Inventories')->findOneBy(array('id' => $id));
+        if ($inventory != null) {
+            $flag = true;
+            foreach ($card as $c) {
+                if ($c->getId() == $id) {
+                    echo $c;
+                    $flag = false;
+                    break;
+                }
+            }
+            if ($flag) {
+                $card->add($inventory);
+            }
+        }
+        $session->set('card', $card);
+        return $this->redirect($this->generateUrl('show_inventory', array('idInventory' => $id)));
+    }
+
+    /**
+     * @Route("/del/{id}", name="delFromCard")
+     * Method("DELETE")
+     * @Template()
+     */
+    public function delAction($id, Request $request) {
+        $session = $this->getRequest()->getSession();
+        $card = $session->get('card');
+
+        if ($card != null) {
+            $buf = new \Doctrine\Common\Collections\ArrayCollection();
+            foreach ($card as $c) {
+                if ($c->getId() != $id) {
+                    $buf->add($c);
+                }
+            }
+            $session->set('card', $buf);
+        }
+        return $this->redirect($this->generateUrl('cart'));
+    }
+
+    /**
+     * @Route("/addrequest", name="addRequest")
+     * Method("PUT")
+     * @Template()
+     */
+    public function requestAction(Request $request) {
+        $session = $this->getRequest()->getSession();
+        $card = $session->get('card');
+
+        if ($card != null) {
+            $r = new Requests();
+            $r->setDate(new \DateTime());
+            $r->setStatus(0);
+            $totalPrice = 0;
+            foreach ($card as $c) {
+                $totalPrice = $c->getPrice();
+            }
+            $r->setTotalPrice($totalPrice);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($r);
+            $em->flush();
+
+            foreach ($card as $c) {
+                $sql = 'insert into inventories_requests(id_inventory, id_request, date) values(:inv, :req, now())';
+                $params = array('inv' => $c->getId(), 'req' => $r->getId());
+                
+                $query = $em->getConnection()->prepare($sql);
+                $query->execute($params);
+            }
+        }
+        $session->set('card', new \Doctrine\Common\Collections\ArrayCollection());
+        return $this->redirect($this->generateUrl('cart'));
+    }
+
+    /**
+     * @Route("/cart", name="cart")
+     * Method("GET")
+     * @Template()
+     */
+    public function cardShowAction() {
+        $categories = $this->getDoctrine()->getRepository('AppBundle:Category')->findAll();
+
+        $session = $this->getRequest()->getSession();
+        $card = $session->get('card');
+
+        return $this->render('default/cart.html.twig', array(
+                    'inventories' => $card,
+                    'categories' => $categories,
+        ));
+    }
+
     public function checkUser() {
         $user = getCurrentUser();
         if (!$user) {
@@ -176,18 +280,18 @@ class DefaultController extends Controller {
         if (!$user) {
             return false;
         }
-        
+
         if ($user->getRoles() !== 'ROLE_ADMIN') {
             return false;
         }
-        
+
         return true;
     }
-    
+
     public function getCurrentUser() {
         $session = $this->getRequest()->getSession();
         $user = $session->get('user');
-        
+
         return $user;
     }
 

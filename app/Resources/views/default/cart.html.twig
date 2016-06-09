@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="clearfix">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Название</th>
+                    <th>Стоимость</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for inventory in inventories %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ inventory.name }}</td>
+                        <td>{{ inventory.price }}</td>
+                        <td>
+                            <form id="addToCard" method="post" action="{{ path('delFromCard', {'id':inventory.id}) }}">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                <button onclick="return confirm('Вы уверены?');" type="submit"><span class="glyphicon glyphicon-remove"></span></button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <form id="addToCard" method="post" action="{{ path('addRequest') }}">
+            <input type="hidden" name="_method" value="PUT"/>
+            {% set user = app.session.get('user') %}
+            {% if user is defined %}
+                {% if user is not empty %}
+                    <button type="submit" class="btn btn-sm btn-primary pull-right" type="subbmit">Оформить</button>
+                {% else %}
+                    Для оформления заявки нужно войти
+                {% endif %}
+            {% else %}
+                Для оформления заявки нужно войти
+            {% endif %}
+
+        </form>
+    </div>
+{% endblock %}
+
+{% block title %}
+    FUN прокат | Корзина
+{% endblock %}

@@ -40,7 +40,7 @@ class Inventories {
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idInventory;
+    private $id;
 
     /**
      * @var \AppBundle\Entity\Category
@@ -135,7 +135,7 @@ class Inventories {
      * @return integer 
      */
     public function getId() {
-        return $this->idInventory;
+        return $this->id;
     }
 
     /**
@@ -144,7 +144,7 @@ class Inventories {
      * @param \AppBundle\Entity\Category $idCategory
      * @return Inventories
      */
-    public function setId(\AppBundle\Entity\Category $idCategory = null) {
+    public function setIdCategory(\AppBundle\Entity\Category $idCategory = null) {
         $this->idCategory = $idCategory;
 
         return $this;

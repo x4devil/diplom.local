@@ -40,7 +40,7 @@ class Requests
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idRequest;
+    private $id;
 
 
 
@@ -118,8 +118,8 @@ class Requests
      *
      * @return integer 
      */
-    public function getIdRequest()
+    public function getId()
     {
-        return $this->idRequest;
+        return $this->id;
     }
 }

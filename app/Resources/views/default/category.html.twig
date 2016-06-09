@@ -1,38 +1,41 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-	<h5 class="category-name"><strong>{{activeCategory.name}}</strong></h5>
+    <h5 class="category-name"><strong>{{activeCategory.name}}</strong></h5>
 
-		<div class="row clearfix">
-			{% for inventory in inventories %}
-				<div class="col-sm-6 col-md-4 item">
-					<div class="img-wrapper">
-					{% for i in inventory.getImages() %}
-						{% if loop.index == 1%}
-							<img src="../web/img/{{i.idImage}}.jpg" class="img-responsive img-category" alt="">
-						{% endif %}
-					{% endfor %}
-					</div>
-					<h5 class="text-center">{{inventory.name}}</h5>
-					<h5 class="text-center">{{inventory.price}} <span class="glyphicon glyphicon-rub" aria-hidden="true"></span> / Сутки</h5>
-					<a class="btn btn-sm btn-primary center-block" href="/inventory{{inventory.id}}" role="button">Посмотреть</a>
-				</div>
-			{% endfor %}
-		</div>
-		<div class="pagination-center">
-                {% if pageCount != 0%}
-                    <ul class="pagination">
-                        {% for page in pageCount..1 %}
-							{% if loop.index == activePage %}
-								<li  class="active"><a href="/category{{activeCategory.id}}/page{{loop.index}}">{{loop.index}}</a></li>
-							{% else %}
-								<li><a href="/category{{activeCategory.id}}/page{{loop.index}}">{{loop.index}}</a></li>
-							{% endif %}
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-			</div>
-		
+    <div class="row clearfix">
+        {% for inventory in inventories %}
+            <div class="col-sm-6 col-md-4 item">
+                <div class="img-wrapper">
+                    {% for i in inventory.getImages() %}
+                        {% if loop.index == 1%}
+                            <form id="addToCard" method="post" action="{{ path('delFromCard', {'id':inventory.id}) }}">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                            </form>
+                            <img src="../web/img/{{i.idImage}}.jpg" class="img-responsive img-category" alt="">
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <h5 class="text-center">{{inventory.name}}</h5>
+                <h5 class="text-center">{{inventory.price}} <span class="glyphicon glyphicon-rub" aria-hidden="true"></span> / Сутки</h5>
+                <a class="btn btn-sm btn-primary center-block" href="/inventory{{inventory.id}}" role="button">Посмотреть</a>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="pagination-center">
+        {% if pageCount != 0%}
+            <ul class="pagination">
+                {% for page in pageCount..1 %}
+                    {% if loop.index == activePage %}
+                        <li  class="active"><a href="/category{{activeCategory.id}}/page{{loop.index}}">{{loop.index}}</a></li>
+                        {% else %}
+                        <li><a href="/category{{activeCategory.id}}/page{{loop.index}}">{{loop.index}}</a></li>
+                        {% endif %}
+                    {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
 
 
 {% endblock %}

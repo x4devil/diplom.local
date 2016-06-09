@@ -4,7 +4,7 @@
     <indexes>
       <index name="id_category" columns="id_category"/>
     </indexes>
-    <id name="idInventory" type="integer" column="id_inventory">
+    <id name="id" type="integer" column="id_inventory">
       <generator strategy="IDENTITY"/>
     </id>
     <field name="name" type="string" column="name" length="200" nullable="false"/>
