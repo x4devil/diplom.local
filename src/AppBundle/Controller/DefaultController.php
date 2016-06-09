@@ -87,7 +87,7 @@ class DefaultController extends Controller {
                     'inventory' => $inventory
         ));
     }
-    
+
     /**
      * @Route("/register", name="register")
      * Method("PUT")
@@ -99,14 +99,96 @@ class DefaultController extends Controller {
         $login = $request->get('login');
         $password = $request->get('password');
         $confirmPassword = $request->get('confirm-password');
-        
-        $responce = array();
-        if ($password != $confirmPassword) { 
-            $responce['message'] =  'Пароли долны совпадать';
-            $responce['code'] = 'error';
+
+        if ($password != $confirmPassword) {
+            $responce['message'] = 'Пароли долны совпадать';
+            $responce['code'] = 'danger';
+            return new JsonResponse(array('responce' => $responce));
+        }
+
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(array('login' => $login));
+        if ($user != null) {
+            $responce['message'] = 'Пользователь с таким логином существует';
+            $responce['code'] = 'danger';
+            return new JsonResponse(array('responce' => $responce));
+        }
+
+
+        $newUser = new User();
+//        
+        $newUser->setName($fio)
+                ->setPhoneNumber($phone)
+                ->setLogin($login)
+                ->setPassword($password)
+                ->setRoles('ROLE_USER');
+
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($newUser);
+        $em->flush();
+
+        $responce['message'] = 'Поздравляем, теперь вы можете войти на сайт';
+        $responce['code'] = 'success';
+
+        return new JsonResponse(array('responce' => $responce));
+    }
+
+    /**
+     * @Route("/login", name="login")
+     * Method("PUT")
+     * @Template()
+     */
+    public function loginAction(Request $request) {
+        $login = $request->get('login-login');
+        $password = $request->get('login-password');
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(array('login' => $login, 'password' => $password));
+
+        if (!$user) {
+            $responce['message'] = 'Неправильный логин или пароль';
+            $responce['code'] = 'danger';
+            return new JsonResponse(array('responce' => $responce));
+        }
+
+        $session = $this->getRequest()->getSession();
+        $session->set('user', $user);
+
+        $responce['message'] = 'Вы вошли на сайт';
+        $responce['code'] = 'success';
+        $responce['user'] = $user->getName();
+        return new JsonResponse(array('responce' => $responce));
+    }
+
+    public function checkUser() {
+        $user = getCurrentUser();
+        if (!$user) {
+            return false;
+        }
+
+        if ($user->getRoles() !== 'ROLE_USER' || $user->getRoles() !== 'ROLE_ADMIN') {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function checkAdmin() {
+        $user = getCurrentUser();
+        if (!$user) {
+            return false;
         }
         
-         return new JsonResponse(array('responce' => $responce)); 
+        if ($user->getRoles() !== 'ROLE_ADMIN') {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    public function getCurrentUser() {
+        $session = $this->getRequest()->getSession();
+        $user = $session->get('user');
+        
+        return $user;
     }
 
 }

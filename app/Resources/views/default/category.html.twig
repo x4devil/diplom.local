@@ -15,7 +15,7 @@
 					</div>
 					<h5 class="text-center">{{inventory.name}}</h5>
 					<h5 class="text-center">{{inventory.price}} <span class="glyphicon glyphicon-rub" aria-hidden="true"></span> / Сутки</h5>
-					<a class="btn btn-sm btn-primary center-block" href="/inventory{{inventory.idInventory}}" role="button">Посмотреть</a>
+					<a class="btn btn-sm btn-primary center-block" href="/inventory{{inventory.id}}" role="button">Посмотреть</a>
 				</div>
 			{% endfor %}
 		</div>
@@ -24,9 +24,9 @@
                     <ul class="pagination">
                         {% for page in pageCount..1 %}
 							{% if loop.index == activePage %}
-								<li  class="active"><a href="/category{{activeCategory.idCategory}}/page{{loop.index}}">{{loop.index}}</a></li>
+								<li  class="active"><a href="/category{{activeCategory.id}}/page{{loop.index}}">{{loop.index}}</a></li>
 							{% else %}
-								<li><a href="/category{{activeCategory.idCategory}}/page{{loop.index}}">{{loop.index}}</a></li>
+								<li><a href="/category{{activeCategory.id}}/page{{loop.index}}">{{loop.index}}</a></li>
 							{% endif %}
                         {% endfor %}
                     </ul>

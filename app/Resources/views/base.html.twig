@@ -10,6 +10,7 @@
     </head>
 
     <body>
+        {% set user = app.session.get('user') %}
         <div class="container">
             <div class="navbar" role="navigation">
                 <div class="container-fluid">
@@ -50,7 +51,7 @@
                                             </div>
                                             <div class="modal-body">
                                                 <div id="responce" class="form-group">
-                                                   
+
                                                 </div>
                                                 <div class="form-group">
                                                     <input name="fio" type="text" class="form-control" id="exampleInputName" placeholder="ФИО" required>
@@ -78,27 +79,38 @@
 
 
                             <li><a class="cursor-pointer" data-toggle="modal" data-target="#modalLogin">Вход</a></li>
+                            {% if user is defined %}
+                                {% if user is not empty %}
+                                <li id="loginUser">Вы вошли как: {{user.name}}</li>
+                                {% endif %}
+                            {% endif %}
 
                             <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-sm">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="myModalLabel">Вход</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="exampleInputLogin" placeholder="Логин">
+                                <form id="loginForm" method="post" action="{{ path('login') }}">
+                                    <input type="hidden" name="_method" value="PUT"/>
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">Вход</h4>
                                             </div>
-                                            <div class="form-group">
-                                                <input type="password" class="form-control" id="exampleInputPassword" placeholder="Пароль">
+                                            <div class="modal-body">
+                                                <div id="responceLogin" class="form-group">
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <input id="login-login" type="text" class="form-control" placeholder="Логин" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input id="login-password" type="password" class="form-control" placeholder="Пароль" required>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary">Вход</button>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Вход</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
 
 
