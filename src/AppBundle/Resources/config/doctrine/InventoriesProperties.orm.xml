@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-  <entity name="AppBundle\Entity\InventoriesProperties" table="inventories_properties">
-    <indexes>
-      <index name="id_inventory" columns="id_inventory"/>
-      <index name="id_property" columns="id_property"/>
-    </indexes>
-    <id name="id" type="integer" column="id">
-      <generator strategy="IDENTITY"/>
-    </id>
-    <field name="value" type="string" column="value" length="255" nullable="false"/>
-    <many-to-one field="idProperty" target-entity="Properties">
-      <join-columns>
-        <join-column name="id_property" referenced-column-name="id_properties"/>
-      </join-columns>
-    </many-to-one>
-    <many-to-one field="idInventory" target-entity="Inventories">
-      <join-columns>
-        <join-column name="id_inventory" referenced-column-name="id_inventory"/>
-      </join-columns>
-    </many-to-one>
-  </entity>
+    <entity name="AppBundle\Entity\InventoriesProperties" table="inventories_properties">
+        <indexes>
+            <index name="id_inventory" columns="id_inventory"/>
+            <index name="id_property" columns="id_property"/>
+        </indexes>
+        <id name="id" type="integer" column="id">
+            <generator strategy="IDENTITY"/>
+        </id>
+        <field name="value" type="string" column="value" length="255" nullable="false"/>
+        <many-to-one field="idProperty" target-entity="Properties">
+            <join-columns>
+                <join-column name="id_property" referenced-column-name="id_properties"/>
+            </join-columns>
+        </many-to-one>
+        <many-to-one field="idInventory" target-entity="Inventories">
+            <join-columns>
+                <join-column name="id_inventory" referenced-column-name="id_inventory"/>
+            </join-columns>
+        </many-to-one>
+    </entity>
 </doctrine-mapping>

@@ -39,6 +39,9 @@
             <h4><strong>{{inventory.name}}</strong></h4>
             <p>Цена {{inventory.price}} Рублей / Сутки <p>
             <p>{{inventory.description}}</p>
+            {% for property in inventory.properties %}
+                <p>{{property.idProperty.name}} : {{property.value}}</p>
+            {% endfor %}
             <!--
     <div class="form-group">
       <label for="exampleInputEmail1">尺码</label>

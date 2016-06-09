@@ -58,12 +58,20 @@ class Inventories {
      * @ORM\OneToMany(targetEntity="Images", mappedBy="inventories")
      */
     protected $images;
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     * 
+     * @ORM\OneToMany(targetEntity="InventoriesProperties", mappedBy="idInventory")
+     */
+    protected $properties;
 
     /**
      * Constructor
      */
     public function __construct() {
         $this->images = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->properties = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -167,6 +175,17 @@ class Inventories {
     public function getImages() {
         return $this->images;
     }
+    
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProperties() {
+        return $this->properties;
+    }
+    
+    
 
     function __toString() {
         return $this->getName();
