@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}{% endblock %}</title>
+
+        <link href="/web/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="/web/css/style.css" rel="stylesheet" type="text/css"/>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="navbar" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/"><strong>FUN прокат</strong></a>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+
+                            <li class="dropdown hidden-xs">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Категории<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    {% for category in categories %}
+                                        <li><a href="/category{{category.getId()}}/page1">{{category.name}}</a></li>
+                                        {% endfor %}
+                                </ul>
+                            </li>
+                            {% for category in categories %}
+                                <li><a class="cursor-pointer visible-xs" href="/category{{category.getId()}}/page1">{{category.name}}</a></li>
+                                {% endfor %}
+
+                            <li><a class="cursor-pointer" data-toggle="modal" data-target="#modalRegistration">Регистрация</a></li>
+
+                            <div class="modal fade bs-example-modal-sm" id="modalRegistration" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <form id="registerForm" method="post" action="{{ path('register') }}">
+                                    <input type="hidden" name="_method" value="PUT"/>
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">Регистрация</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div id="responce" class="form-group">
+                                                   
+                                                </div>
+                                                <div class="form-group">
+                                                    <input name="fio" type="text" class="form-control" id="exampleInputName" placeholder="ФИО" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input name="phone" type="text" class="form-control" id="exampleInputPhone" placeholder="Номер телефона" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input name="login" type="text" class="form-control" id="exampleInputLogin" placeholder="Логин" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input name="password" type="password" class="form-control" id="exampleInputPassword" placeholder="Пароль" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input name="confirm-password" type="password" class="form-control" id="exampleInputPasswordAgain" placeholder="Пароль еще раз" required>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Регистрация</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                            <li><a class="cursor-pointer" data-toggle="modal" data-target="#modalLogin">Вход</a></li>
+
+                            <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel">Вход</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="exampleInputLogin" placeholder="Логин">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" id="exampleInputPassword" placeholder="Пароль">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary">Вход</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <li>
+                                <a href="/cart">
+                                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        {% block body %}{% endblock %}
+
+
+        <div class="footer">
+            <p><strong>&copy;</strong> Dmitrii Nekrasov 2016</p>
+        </div>
+
+    </div> 
+
+    <script src="/web/js/jquery.min.js"></script>
+    <script src="/web/js/bootstrap.min.js"></script>
+    <script src="/web/js/register.js"></script>
+</body>
+
+</html>

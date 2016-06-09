@@ -1,0 +1,14 @@
+{% extends '::baseAdmin.html.twig' %}
+
+{% block body -%}
+    <h1>Inventories edit</h1>
+
+    {{ form(edit_form) }}
+
+        <ul class="record_actions">
+            <li>{{ form(delete_form) }}</li>
+        </ul>
+{% endblock %}
+{% block title %}
+    Редактирование
+{% endblock %}

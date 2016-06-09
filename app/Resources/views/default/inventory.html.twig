@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="row">
+        <div class="col-sm-6 col-md-8 item">
+          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+			
+			{% if inventory.getImages().count() > 1 %}
+				<ol class="carousel-indicators">
+				 {% for count in inventory.getImages() %}
+					{% if loop.index0 == 0 %}
+						<li data-target="#carousel-example-generic" data-slide-to="{{loop.index0}}" class="active"></li>
+					{% else %}
+						<li data-target="#carousel-example-generic" data-slide-to="{{loop.index0}}"></li>
+					{% endif %}
+				{% endfor %}
+				</ol>
+			{% endif %}
+
+            <div class="carousel-inner">
+				{% for i in inventory.getImages() %}
+					{% if loop.index == 1 %}
+						<div class="item active">
+							<div class="slide-item" style="background-image:url(../web/img/{{i.idImage}}.jpg)">
+							</div>
+						</div>
+					{% else %}
+						<div class="item">
+							<div class="slide-item" style="background-image:url(../web/img/{{i.idImage}}.jpg)">
+							</div>
+						</div>
+					{% endif %}
+				{% endfor %}
+            </div>
+			
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4 item">
+          <h4><strong>{{inventory.name}}</strong></h4>
+          <p>Цена {{inventory.price}} Рублей / Сутки <p>
+          <p>{{inventory.description}}</p>
+		  <!--
+          <div class="form-group">
+            <label for="exampleInputEmail1">尺码</label>
+            <select class="form-control">
+              <option>43</option>
+            </select>
+          </div>-->
+          <a class="btn btn-sm btn-primary center-block"  role="button">В корзину</a>
+        </div>
+      </div>
+{% endblock %}
+
+{% block title %}
+    FUN прокат | {{inventory.name}}
+{% endblock %}

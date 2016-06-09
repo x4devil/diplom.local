@@ -1,0 +1,139 @@
+.icon-bar{
+	background-color: #428bca;
+}
+.footer{
+	margin-top: 15px;
+	padding-top: 15px;
+	border-top: 2px solid #428bca;
+	color: #337ab7;
+}
+.cursor-pointer{
+	cursor: pointer;
+}
+.slide-information{
+    height: 220px;
+    background-size: auto 100%;
+	background-repeat: no-repeat;
+    background-position: center;
+    color: #428bca;
+    position: relative;
+}
+.slide-item{
+    height: 220px;
+    background: url(../img/2.jpg);
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.slide-information h4{
+	position: absolute;
+	bottom: 70px;
+	left: 15px;
+}
+.slide-information p{
+	position: absolute;
+	bottom: 30px;
+	left: 15px;
+}
+.carousel-indicators li{
+	border: 1px solid #428bca;
+}
+.carousel-indicators .active{
+    background-color: #428bca;
+}
+@media (min-width: 768px){
+	.container {
+	    max-width: 730px;
+	}
+	.navbar{
+		border-bottom: 2px solid #428bca;
+	}
+}
+@media (min-width: 540px){
+	.slide-information{
+		height: 320px;
+	}
+	.slide-item{
+		height: 280px;
+	}
+	.slide-information h4{
+		position: absolute;
+		bottom: 90px;
+		left: 40px;
+	}
+	.slide-information p{
+		position: absolute;
+		bottom: 30px;
+		left: 40px;
+	}
+}
+.category-name{
+	padding: 0 0 15px 15px;
+	border-bottom: 2px solid #428bca;
+	color: #428bca;
+	margin-bottom: 15px;
+}
+.item{
+	margin-bottom: 30px;
+}
+
+.animated {
+  animation-duration: .5s;
+  animation-delay: 0s;
+}
+
+@keyframes flash {
+  0% {
+    color: #428bca;
+  }
+  10% {
+    color: rgb(0,127,255);
+  }
+  18% {
+    color: rgb(0,255,255);
+  }
+  26% {
+    color: rgb(0,255,127);
+  }
+  34% {
+    color: rgb(127,255,0);
+  }
+  42% {
+    color: rgb(255,255,0);
+  }
+  50% {
+    color: rgb(255,127,0);
+  }
+  58% {
+    color: rgb(255,0,0);
+  }
+  66% {
+    color: rgb(255,0,127);
+  }
+  74% {
+    color: rgb(255,0,255);
+  }
+  82% {
+    color: rgb(127,0,255);
+  }
+  100% {
+    color: #428bca;
+  }
+}
+
+.flash {
+  -webkit-animation-name: flash;
+  animation-name: flash;
+}
+.pagination-center{
+    text-align: center;
+}	
+.img-wrapper{
+	text-align: center;
+	margin-bottom: 20px;
+}
+.img-category{
+	height: 170px;
+	max-height: 170px;
+	display: inline-block;
+}

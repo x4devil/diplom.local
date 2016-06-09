@@ -1,0 +1,45 @@
+{% extends '::baseAdmin.html.twig' %}
+
+{% block body -%}
+    <h1>Requests list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Totalprice</th>
+                <th>Idrequest</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('requests_show', { 'id': entity.idRequest }) }}">{{ entity.date }}</a></td>
+                <td>{{ entity.status }}</td>
+                <td>{{ entity.totalPrice }}</td>
+                <td>{{ entity.idRequest }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('requests_show', { 'id': entity.idRequest }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('requests_edit', { 'id': entity.idRequest }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('requests_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

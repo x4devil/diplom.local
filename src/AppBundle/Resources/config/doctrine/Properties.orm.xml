@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\Properties" table="properties">
+    <indexes>
+      <index name="id_category" columns="id_category"/>
+    </indexes>
+    <id name="idProperties" type="integer" column="id_properties">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="name" type="string" column="name" length="200" nullable="false"/>
+    <many-to-one field="idCategory" target-entity="Category">
+      <join-columns>
+        <join-column name="id_category" referenced-column-name="id_category"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+   <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+
+      <ol class="carousel-indicators">
+		{% for count in lastInventories %}
+			{% if loop.index0 == 0 %}
+				<li data-target="#carousel-example-generic" data-slide-to="{{loop.index0}}" class="active"></li>
+			{% else %}
+				<li data-target="#carousel-example-generic" data-slide-to="{{loop.index0}}"></li>
+			{% endif %}
+		{% endfor %}
+      </ol>
+
+		{% if lastInventories != null %}
+		  <div class="carousel-inner">
+			{% for inventory in lastInventories %}
+				{% if loop.index == 1 %}
+					<div class="item active">
+						{% for i in inventory.getImages() %}
+							{% if loop.index == 1 %}
+								<div class="slide-information" style="background-image:url(../web/img/{{i.idImage}}.jpg)">
+								  <h4><strong>{{inventory.name}}</strong></h4>
+								  <p><a class="btn btn-sm btn-primary" href="/inventory{{inventory.id}}" role="button">Посмотреть</a></p>
+								</div>
+							{% endif %}
+						{% endfor %}
+					</div>
+				{% else %}
+					<div class="item">
+						{% for i in inventory.getImages() %}
+							{% if loop.index == 1 %}
+								<div class="slide-information" style="background-image:url(../web/img/{{i.idImage}}.jpg)">
+								  <h4><strong>{{inventory.name}}</strong></h4>
+								  <p><a class="btn btn-sm btn-primary" href="/inventory{{inventory.id}}" role="button">Посмотреть</a></p>
+								</div>
+							{% endif %}
+						{% endfor %}
+					</div>
+				{% endif %}
+			{% endfor %}
+		  </div>
+		{% endif %}
+    </div>
+{% endblock %}
+
+{% block title %}
+    FUN прокат | Главная
+{% endblock %}
